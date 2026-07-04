@@ -25,7 +25,7 @@
     --display: 'Bebas Neue', sans-serif;
   }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; transition: background 0.45s ease; }
 
   body {
     background: var(--black);
@@ -551,7 +551,7 @@
     z-index: 2;
   }
   .service-card-theater {
-    background-image: url('https://images.unsplash.com/photo-1593784991095-a205069470b6?w=900&q=70');
+    background-image: url('https://images.pexels.com/photos/7234213/pexels-photo-7234213.jpeg?auto=compress&cs=tinysrgb&w=900&q=75');
   }
   .service-card-rental {
     background-image: url('https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=900&q=70');
@@ -1865,11 +1865,533 @@
     .ht-row-left { padding-left: 20px; padding-right: 20px; }
     .ht-row-right { padding-left: 20px; padding-right: 20px; }
   }
+
+  /* ================================================
+     DAY / NIGHT TOGGLE BUTTON
+  ================================================ */
+
+  .theme-toggle {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: 1px solid rgba(201,151,58,0.35);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.25s, background 0.25s;
+    flex-shrink: 0;
+    padding: 0;
+    outline: none;
+  }
+  .theme-toggle:hover { border-color: var(--gold); background: rgba(201,151,58,0.08); }
+  .theme-toggle svg {
+    width: 16px; height: 16px;
+    position: absolute;
+    transition: opacity 0.3s, transform 0.4s;
+  }
+  .theme-toggle .icon-moon {
+    stroke: var(--gold); fill: none; stroke-width: 1.5;
+    opacity: 1; transform: rotate(0deg) scale(1);
+  }
+  .theme-toggle .icon-sun {
+    stroke: var(--gold); fill: none; stroke-width: 1.5;
+    opacity: 0; transform: rotate(-60deg) scale(0.6);
+  }
+  [data-theme="day"] .theme-toggle .icon-moon {
+    opacity: 0; transform: rotate(60deg) scale(0.6);
+  }
+  [data-theme="day"] .theme-toggle .icon-sun {
+    opacity: 1; transform: rotate(0deg) scale(1);
+  }
+
+  /* ================================================
+     SMOOTH TRANSITION BASE (both modes)
+  ================================================ */
+  body, nav, .services-strip, .section, .section-alt,
+  .contact-strip, .booking-section, .process-section, footer,
+  .package-card, .event-card, .ht-row, .rental-pkg, .stat-box,
+  .service-card, .form-field input, .form-field select, .form-field textarea,
+  .strip-text span, .section-heading, .section-body, .section-label {
+    transition: background 0.4s ease, border-color 0.4s ease, color 0.3s ease;
+  }
+
+  /* ================================================
+     DAY THEME — VARIABLE OVERRIDES
+     Rule: page surfaces use light vars.
+     Image overlays stay DARK so photos show properly.
+     Text ON images stays light (#F5F0E8) regardless of theme.
+  ================================================ */
+
+  [data-theme="day"] {
+    --black:  #F5F1EB;
+    --black2: #EBE6DF;
+    --black3: #E0DAD2;
+    --black4: #D4CEC7;
+    --white:  #18130F;
+    --white-dim: #3A3632;
+    --white-mute: #80796F;
+  }
+
+  [data-theme="day"] body { background: var(--black); color: var(--white); }
+
+  /* ---- Nav ---- */
+  [data-theme="day"] nav {
+    background: linear-gradient(to bottom, rgba(245,241,235,0.98) 0%, rgba(245,241,235,0.0) 100%);
+  }
+  [data-theme="day"] nav.scrolled {
+    background: rgba(245,241,235,0.97);
+    border-bottom: 1px solid rgba(201,151,58,0.18);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+  }
+  @media (max-width: 680px) {
+    [data-theme="day"] nav {
+      background: rgba(245,241,235,0.97);
+      border-bottom-color: rgba(201,151,58,0.14);
+    }
+  }
+
+  /* ---- Hero — left panel stays cream for text; photo side shows through more ---- */
+  [data-theme="day"] .hero-bg {
+    background:
+      linear-gradient(90deg,
+        rgba(245,241,235,0.97) 0%,
+        rgba(245,241,235,0.88) 38%,
+        rgba(245,241,235,0.30) 65%,
+        rgba(245,241,235,0.10) 100%),
+      url('https://images.pexels.com/photos/34623194/pexels-photo-34623194.jpeg?auto=compress&cs=tinysrgb&w=1800&h=1100&fit=crop') center right/cover no-repeat;
+  }
+  /* Hero photo panel — keep its dark bottom vignette, just slightly warmer */
+  [data-theme="day"] .hero-photo-panel::after {
+    background:
+      linear-gradient(180deg, transparent 45%, rgba(15,12,10,0.80) 100%),
+      linear-gradient(135deg, rgba(201,151,58,0.14), transparent 48%);
+  }
+
+  /* ---- Hero text (on light cream bg) stays dark via var(--white) — correct ---- */
+
+  /* ---- Services strip ---- */
+  [data-theme="day"] .services-strip {
+    border-top: 1px solid rgba(0,0,0,0.07);
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+  }
+
+  /* ---- About image boxes ---- */
+  [data-theme="day"] .about-img-box { background: var(--black3); border-color: rgba(201,151,58,0.18); }
+
+  /* ---- Stat boxes ---- */
+  [data-theme="day"] .stat-box { background: var(--black); }
+  [data-theme="day"] .section-alt .stat-box { background: var(--black2); }
+
+  /* ---- Brands marquee fades (must match section background) ---- */
+  [data-theme="day"] .marquee-wrapper::before { background: linear-gradient(to right, var(--black), transparent); }
+  [data-theme="day"] .marquee-wrapper::after  { background: linear-gradient(to left,  var(--black), transparent); }
+
+  /* ---- Services grid bg gap ---- */
+  [data-theme="day"] .services-grid { background: rgba(0,0,0,0.06); border-color: rgba(0,0,0,0.06); }
+
+  /* ---- Service cards: keep dark overlay so image is VISIBLE, text readable ---- */
+  [data-theme="day"] .service-card::after {
+    background:
+      linear-gradient(180deg, rgba(6,6,8,0.42) 0%, rgba(6,6,8,0.72) 100%),
+      linear-gradient(135deg, rgba(201,151,58,0.16) 0%, transparent 48%);
+  }
+  [data-theme="day"] .service-card:hover::after {
+    background:
+      linear-gradient(180deg, rgba(6,6,8,0.28) 0%, rgba(6,6,8,0.60) 100%),
+      linear-gradient(135deg, rgba(201,151,58,0.22) 0%, transparent 48%);
+  }
+  /* Service card text ON image → keep light */
+  [data-theme="day"] .service-title,
+  [data-theme="day"] .service-desc,
+  [data-theme="day"] .service-number { color: inherit; }
+
+  /* ---- Image brightness boost in day mode so photos don't look dim ---- */
+  [data-theme="day"] .gallery-tile img,
+  [data-theme="day"] .work-card img,
+  [data-theme="day"] .about-photo-main img,
+  [data-theme="day"] .about-photo-small img,
+  [data-theme="day"] .main-image-large img,
+  [data-theme="day"] .main-image-small img,
+  [data-theme="day"] .section-wide-image img,
+  [data-theme="day"] .section-mini-image img,
+  [data-theme="day"] .ht-row-media img,
+  [data-theme="day"] .process-step-img img,
+  [data-theme="day"] .rental-pkg-img img,
+  [data-theme="day"] .booking-photo img,
+  [data-theme="day"] .hero-photo-panel img,
+  [data-theme="day"] .visual-panel img {
+    filter: saturate(0.88) contrast(1.04) brightness(0.92);
+  }
+
+  /* ---- Image ::after overlays — dark bottom vignette so captions stay readable ---- */
+  [data-theme="day"] .gallery-tile::after,
+  [data-theme="day"] .work-card::after,
+  [data-theme="day"] .about-photo-main::after,
+  [data-theme="day"] .about-photo-small::after,
+  [data-theme="day"] .main-image-large::after,
+  [data-theme="day"] .main-image-small::after,
+  [data-theme="day"] .section-wide-image::after,
+  [data-theme="day"] .section-mini-image::after,
+  [data-theme="day"] .ht-row-media::after,
+  [data-theme="day"] .process-step-img::after,
+  [data-theme="day"] .rental-pkg-img::after,
+  [data-theme="day"] .booking-photo::after {
+    background: linear-gradient(180deg, rgba(6,6,8,0.04) 0%, rgba(6,6,8,0.62) 100%);
+  }
+
+  /* ---- Text sitting ON dark image overlays — must stay light regardless of theme ---- */
+  [data-theme="day"] .gallery-caption span:first-child,
+  [data-theme="day"] .work-card-title,
+  [data-theme="day"] .image-caption span:first-child,
+  [data-theme="day"] .photo-label,
+  [data-theme="day"] .hero-photo-caption,
+  [data-theme="day"] .visual-panel-caption,
+  [data-theme="day"] .service-title,
+  [data-theme="day"] .service-desc {
+    color: #F5F0E8;
+  }
+  [data-theme="day"] .gallery-caption span:last-child,
+  [data-theme="day"] .work-card-kicker,
+  [data-theme="day"] .image-caption span:last-child {
+    color: var(--gold);
+  }
+
+  /* ---- Page heroes (Theater / Rental pages) ---- */
+  [data-theme="day"] .page-hero-bg { background: var(--black2); }
+
+  /* visual-panel left-to-right fade blends into cream page bg */
+  [data-theme="day"] .visual-panel::before {
+    background:
+      linear-gradient(90deg,
+        rgba(245,241,235,0.94) 0%,
+        rgba(245,241,235,0.55) 32%,
+        rgba(245,241,235,0.08) 58%,
+        transparent 100%),
+      radial-gradient(ellipse at 55% 46%, rgba(201,151,58,0.12), transparent 52%);
+  }
+  /* Bottom fade out on visual panel — matches cream bg */
+  [data-theme="day"] .visual-panel::after {
+    background: linear-gradient(to top, rgba(245,241,235,0.96) 0%, transparent 50%);
+  }
+  [data-theme="day"] .fade-left {
+    background: linear-gradient(to right, var(--black2) 0%, rgba(235,230,223,0.97) 46%, transparent 100%);
+  }
+  [data-theme="day"] .fade-top {
+    background: linear-gradient(to bottom, var(--black) 0%, transparent 100%);
+  }
+  @media (max-width: 900px) {
+    [data-theme="day"] .fade-left {
+      background: linear-gradient(to right, rgba(245,241,235,0.97), rgba(245,241,235,0.60));
+    }
+  }
+
+  /* Page hero titles are on cream bg — var(--white) (dark) is correct */
+
+  /* ---- HT Row cards ---- */
+  [data-theme="day"] .ht-row {
+    background: linear-gradient(145deg, rgba(224,218,210,0.96), rgba(242,238,232,0.99));
+    border-color: rgba(201,151,58,0.20);
+  }
+  [data-theme="day"] .ht-row:hover {
+    background: linear-gradient(145deg, rgba(212,206,198,0.99), rgba(232,227,220,0.99));
+    border-color: rgba(201,151,58,0.40);
+    transform: translateY(-3px);
+  }
+
+  /* ---- Process step arrow bg ---- */
+  [data-theme="day"] .process-step-arrow { background: var(--black2); }
+
+  /* ---- Event cards: image bg + overlay stays dark so content is legible ---- */
+  [data-theme="day"] .event-card { background: var(--black3); }
+  [data-theme="day"] .event-card-overlay {
+    background: linear-gradient(160deg, rgba(6,6,8,0.78) 0%, rgba(6,6,8,0.62) 50%, rgba(6,6,8,0.78) 100%);
+  }
+  [data-theme="day"] .event-card:hover .event-card-overlay {
+    background: linear-gradient(160deg, rgba(6,6,8,0.60) 0%, rgba(6,6,8,0.44) 50%, rgba(6,6,8,0.60) 100%);
+  }
+  /* Text inside event cards is on dark overlay — keep light */
+  [data-theme="day"] .event-name,
+  [data-theme="day"] .event-desc {
+    color: #F5F0E8;
+  }
+  [data-theme="day"] .event-desc { color: rgba(245,240,232,0.70); }
+
+  /* ---- Rental packages ---- */
+  [data-theme="day"] .rental-pkg { background: var(--black); }
+  [data-theme="day"] .rental-pkg:hover { background: var(--black3); }
+  [data-theme="day"] .rental-pkg.center-pkg { background: var(--black3); }
+
+  /* ---- Form fields ---- */
+  [data-theme="day"] .form-field input,
+  [data-theme="day"] .form-field select,
+  [data-theme="day"] .form-field textarea {
+    background: var(--black4);
+    border-color: rgba(0,0,0,0.14);
+    color: var(--white);
+  }
+  [data-theme="day"] .form-field input::placeholder,
+  [data-theme="day"] .form-field textarea::placeholder { color: var(--white-mute); }
+  [data-theme="day"] .form-field input:focus,
+  [data-theme="day"] .form-field select:focus,
+  [data-theme="day"] .form-field textarea:focus { border-color: rgba(201,151,58,0.55); }
+  [data-theme="day"] .form-field select option { background: var(--black3); color: var(--white); }
+
+  /* ---- Package cards ---- */
+  [data-theme="day"] .package-card { background: var(--black); }
+  [data-theme="day"] .package-card:hover { background: var(--black3); }
+  [data-theme="day"] .package-card.featured { background: var(--black3); }
+  [data-theme="day"] .package-desc { border-bottom-color: rgba(0,0,0,0.08); }
+
+  /* ---- Pkg / brand pill borders ---- */
+  [data-theme="day"] .pkg-item { border-bottom-color: rgba(0,0,0,0.06); }
+  [data-theme="day"] .ht-items span { color: var(--white-dim); background: rgba(201,151,58,0.06); }
+
+  /* ---- Contact / booking strips ---- */
+  [data-theme="day"] .contact-strip {
+    background: var(--black3);
+    border-top-color: rgba(201,151,58,0.16);
+    border-bottom-color: rgba(201,151,58,0.16);
+  }
+  [data-theme="day"] .booking-section {
+    background: var(--black3);
+    border-top-color: rgba(201,151,58,0.16);
+  }
+
+  /* ---- Footer ---- */
+  [data-theme="day"] footer { border-top-color: rgba(0,0,0,0.08); }
+
+  /* ================================================
+     COOKIE CONSENT BANNER
+  ================================================ */
+  .cookie-banner {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+    background: rgba(14,14,18,0.97);
+    border-top: 1px solid rgba(201,151,58,0.25);
+    padding: 20px 60px;
+    display: flex; align-items: center; justify-content: space-between; gap: 40px;
+    backdrop-filter: blur(12px);
+    transform: translateY(0); transition: transform 0.4s ease, opacity 0.4s ease;
+  }
+  .cookie-banner.hidden { transform: translateY(110%); opacity: 0; pointer-events: none; }
+  .cookie-banner p {
+    font-size: 13px; font-weight: 300; color: var(--white-dim); line-height: 1.6;
+    margin: 0; max-width: 740px;
+  }
+  .cookie-banner p a {
+    color: var(--gold); text-decoration: none; cursor: pointer;
+  }
+  .cookie-banner p a:hover { text-decoration: underline; }
+  .cookie-actions { display: flex; gap: 12px; flex-shrink: 0; }
+  .cookie-accept {
+    background: var(--gold); color: var(--black); border: none;
+    padding: 10px 24px; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    cursor: pointer; font-family: var(--sans); transition: background 0.2s;
+    white-space: nowrap;
+  }
+  .cookie-accept:hover { background: var(--gold-light); }
+  .cookie-decline {
+    background: transparent; color: var(--white-mute);
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 10px 20px; font-size: 11px; font-weight: 400;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; font-family: var(--sans); transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .cookie-decline:hover { border-color: rgba(255,255,255,0.28); color: var(--white-dim); }
+  [data-theme="day"] .cookie-banner { background: rgba(245,241,235,0.97); border-top-color: rgba(201,151,58,0.22); }
+  [data-theme="day"] .cookie-decline { border-color: rgba(0,0,0,0.14); }
+  @media (max-width: 900px) {
+    .cookie-banner { padding: 18px 24px; flex-direction: column; align-items: flex-start; gap: 16px; }
+  }
+  @media (max-width: 680px) {
+    .cookie-banner { padding: 16px 18px; }
+    .cookie-actions { width: 100%; }
+    .cookie-accept, .cookie-decline { flex: 1; text-align: center; }
+  }
+
+  /* ================================================
+     LEGAL PAGE
+  ================================================ */
+  .legal-hero {
+    padding: 160px 60px 80px;
+    background: var(--black2);
+    border-bottom: 1px solid rgba(201,151,58,0.12);
+    position: relative;
+    overflow: hidden;
+  }
+  .legal-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,151,58,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,151,58,0.03) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse at 30% 50%, black 0%, transparent 70%);
+  }
+  .legal-hero-content { position: relative; z-index: 1; max-width: 700px; }
+  .legal-hero .section-label { margin-bottom: 16px; }
+  .legal-hero h1 {
+    font-family: var(--serif); font-size: clamp(38px, 5vw, 68px);
+    font-weight: 300; line-height: 1.0; margin-bottom: 20px;
+  }
+  .legal-hero h1 em { font-style: italic; color: var(--gold); }
+  .legal-hero p {
+    font-size: 15px; font-weight: 300; color: var(--white-dim); line-height: 1.7;
+    max-width: 520px;
+  }
+  .legal-updated {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: 24px;
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--white-mute);
+    border: 1px solid rgba(201,151,58,0.2);
+    padding: 8px 14px;
+  }
+  .legal-updated span:first-child { color: var(--gold); }
+
+  /* Tab navigation */
+  .legal-tabs {
+    display: flex; gap: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: var(--black2);
+    padding: 0 60px;
+    overflow-x: auto; scrollbar-width: none;
+    position: sticky; top: 72px; z-index: 90;
+  }
+  .legal-tabs::-webkit-scrollbar { display: none; }
+  [data-theme="day"] .legal-tabs { border-bottom-color: rgba(0,0,0,0.08); }
+  .legal-tab {
+    padding: 18px 28px;
+    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--white-mute); cursor: pointer;
+    border-bottom: 2px solid transparent; margin-bottom: -1px;
+    background: none; border-left: none; border-right: none; border-top: none;
+    font-family: var(--sans); font-weight: 400;
+    transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+  }
+  .legal-tab:hover { color: var(--white-dim); }
+  .legal-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+  @media (max-width: 680px) { .legal-tabs { padding: 0 18px; } .legal-tab { padding: 16px 18px; font-size: 10px; } }
+
+  /* Legal content panels */
+  .legal-content { padding: 72px 60px 100px; max-width: 860px; }
+  .legal-panel { display: none; }
+  .legal-panel.active { display: block; animation: fadeIn 0.35s ease; }
+
+  .legal-section { margin-bottom: 52px; }
+  .legal-section:last-child { margin-bottom: 0; }
+  .legal-section-num {
+    font-family: var(--display); font-size: 11px; letter-spacing: 0.25em;
+    color: var(--gold); margin-bottom: 12px; display: block;
+  }
+  .legal-section h2 {
+    font-family: var(--serif); font-size: clamp(22px, 3vw, 32px);
+    font-weight: 300; margin-bottom: 18px; line-height: 1.15;
+  }
+  .legal-section h2 em { font-style: italic; color: var(--gold); }
+  .legal-section h3 {
+    font-size: 14px; font-weight: 500; letter-spacing: 0.06em;
+    color: var(--white-dim); margin: 28px 0 10px; text-transform: uppercase;
+    font-size: 11px; letter-spacing: 0.15em;
+  }
+  .legal-section p {
+    font-size: 14px; font-weight: 300; color: var(--white-mute);
+    line-height: 1.85; margin-bottom: 16px;
+  }
+  .legal-section p strong { color: var(--white-dim); font-weight: 500; }
+  .legal-section ul {
+    list-style: none; display: flex; flex-direction: column; gap: 10px;
+    margin-bottom: 16px;
+  }
+  .legal-section ul li {
+    font-size: 14px; font-weight: 300; color: var(--white-mute);
+    line-height: 1.7; padding-left: 20px; position: relative;
+  }
+  .legal-section ul li::before {
+    content: ''; position: absolute; left: 0; top: 9px;
+    width: 4px; height: 4px; background: var(--gold); border-radius: 50%;
+  }
+  .legal-divider {
+    height: 1px; background: rgba(255,255,255,0.05);
+    margin: 48px 0;
+  }
+  [data-theme="day"] .legal-divider { background: rgba(0,0,0,0.07); }
+  .legal-highlight {
+    border: 1px solid rgba(201,151,58,0.22);
+    background: rgba(201,151,58,0.04);
+    padding: 24px 28px;
+    margin: 24px 0;
+  }
+  .legal-highlight p { margin: 0; color: var(--white-dim); }
+  .legal-table {
+    width: 100%; border-collapse: collapse; margin: 20px 0 16px;
+  }
+  .legal-table th {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); font-weight: 400; padding: 12px 16px;
+    border-bottom: 1px solid rgba(201,151,58,0.2); text-align: left;
+  }
+  .legal-table td {
+    font-size: 13px; font-weight: 300; color: var(--white-mute);
+    padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.04);
+    line-height: 1.6;
+  }
+  [data-theme="day"] .legal-table td { border-bottom-color: rgba(0,0,0,0.06); }
+  .legal-table tr:last-child td { border-bottom: none; }
+  .legal-contact-box {
+    border: 1px solid rgba(201,151,58,0.2);
+    padding: 32px; margin-top: 32px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+  }
+  .legal-contact-item span:first-child {
+    display: block; font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 6px;
+  }
+  .legal-contact-item span:last-child {
+    font-size: 14px; font-weight: 300; color: var(--white-dim);
+  }
+  @media (max-width: 900px) {
+    .legal-content { padding: 52px 40px 80px; }
+  }
+  @media (max-width: 680px) {
+    .legal-hero { padding: 140px 18px 60px; }
+    .legal-content { padding: 40px 18px 72px; }
+    .legal-contact-box { grid-template-columns: 1fr; }
+    .legal-tab { padding: 14px 14px; }
+  }
+
+  /* Form consent line */
+  .form-consent {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 14px 0; border-top: 1px solid rgba(255,255,255,0.05);
+    margin-top: 4px;
+  }
+  [data-theme="day"] .form-consent { border-top-color: rgba(0,0,0,0.07); }
+  .form-consent input[type="checkbox"] {
+    width: 16px; height: 16px; flex-shrink: 0; margin-top: 1px;
+    accent-color: var(--gold); cursor: pointer;
+    background: transparent; border: none; padding: 0;
+  }
+  .form-consent label {
+    font-size: 12px; font-weight: 300; color: var(--white-mute);
+    line-height: 1.6; cursor: pointer;
+  }
+  .form-consent label a { color: var(--gold); text-decoration: none; cursor: pointer; }
+  .form-consent label a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<div class="cookie-banner" id="cookieBanner">
+  <p>We use essential cookies to keep this website running and may use your enquiry details solely to respond to your request. By continuing you agree to our <a onclick="showPage('legal'); switchLegalTab('privacy')">Privacy Policy</a> and <a onclick="showPage('legal'); switchLegalTab('terms')">Terms of Use</a>. We never sell or share your personal data with third parties.</p>
+  <div class="cookie-actions">
+    <button class="cookie-decline" onclick="dismissCookie(false)">Decline</button>
+    <button class="cookie-accept" onclick="dismissCookie(true)">Accept</button>
+  </div>
+</div>
+
 <nav id="mainNav">
   <div class="nav-logo" onclick="showPage('home')">
     <div class="nav-logo-icon"></div>
@@ -1880,12 +2402,15 @@
     <a onclick="showPage('theater')" id="nav-theater">Home Theater</a>
     <a onclick="showPage('rental')" id="nav-rental">Audio Rental</a>
   </div>
-  <button class="nav-cta" onclick="openWhatsApp('general')">Get Quote</button>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle day/night mode" title="Toggle day / night">
+      <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <button class="nav-cta" onclick="openWhatsApp('general')">Get Quote</button>
+  </div>
 </nav>
 
-<!-- ===========================
-     PAGE 1 — HOME
-=========================== -->
 <div class="page active" id="page-home">
 
   <section class="hero">
@@ -2003,7 +2528,7 @@
       </div>
       <div class="gallery-grid">
         <div class="gallery-tile gallery-tile-large">
-          <img src="images/luxury-movie-theater-with-modern-design-lighting-generated-by-ai.jpg" alt="Luxury private cinema room">
+          <img src="https://images.pexels.com/photos/7991579/pexels-photo-7991579.jpeg?auto=compress&cs=tinysrgb&w=900&h=1125&fit=crop" alt="Luxury private cinema room">
           <div class="gallery-caption"><span>Private Cinema</span><span>Home theater</span></div>
         </div>
         <div class="gallery-tile">
@@ -2108,7 +2633,7 @@
         <div class="contact-detail-icon">
           <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         </div>
-        <span>daaudiosystem@gmail.com</span>
+        <span>info@digitalaudiocbe.com</span>
       </div>
     </div>
   </div>
@@ -2119,15 +2644,20 @@
       <a onclick="showPage('home')">Home</a>
       <a onclick="showPage('theater')">Theater</a>
       <a onclick="showPage('rental')">Rental</a>
+      <a onclick="showPage('legal')">Legal</a>
     </div>
-    <div class="footer-copy">© 2025 Digital Audio, Coimbatore</div>
+    <div class="footer-copy">
+      © 2025 Digital Audio, Coimbatore &nbsp;·&nbsp;
+      <a onclick="showPage('legal'); switchLegalTab('privacy')" style="color:inherit;text-decoration:none;cursor:pointer;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Privacy</a>
+      &nbsp;·&nbsp;
+      <a onclick="showPage('legal'); switchLegalTab('terms')" style="color:inherit;text-decoration:none;cursor:pointer;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Terms</a>
+      &nbsp;·&nbsp;
+      <a onclick="showPage('legal'); switchLegalTab('cancel')" style="color:inherit;text-decoration:none;cursor:pointer;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Cancellation</a>
+    </div>
   </footer>
 
 </div>
 
-<!-- ===========================
-     PAGE 2 — HOME THEATER
-=========================== -->
 <div class="page" id="page-theater">
 
   <section class="page-hero">
@@ -2208,7 +2738,7 @@
           <div class="ht-items">
             <span>4K / 8K Smart Displays</span><span>Laser & DLP Projectors</span><span>Motorised Projection Screens</span><span>Fixed Frame Screens</span><span>Ambient Light Rejection (ALR) Screens</span><span>Display Calibration</span>
           </div>
-          <div class="ht-row-media"><img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=900&q=72" alt="Large format screen and display setup"></div>
+          <div class="ht-row-media"><img src="https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=900&q=75" alt="Large format screen and display setup"></div>
         </div></div>
         <div class="ht-toggle">+</div>
       </div>
@@ -2226,7 +2756,7 @@
           <div class="ht-items">
             <span>5.1 / 7.1 Surround Systems</span><span>Dolby Atmos (7.1.4 / 9.2.6)</span><span>DTS:X Configuration</span><span>In-Wall & In-Ceiling Speakers</span><span>Floorstanding & Bookshelf Speakers</span><span>Subwoofer Placement & Tuning</span>
           </div>
-          <div class="ht-row-media"><img src="https://images.unsplash.com/photo-1558089687-f282ffcbc126?w=900&q=72" alt="Premium surround speakers"></div>
+          <div class="ht-row-media"><img src="https://images.pexels.com/photos/13378812/pexels-photo-13378812.jpeg?auto=compress&cs=tinysrgb&w=900&h=520&fit=crop" alt="Premium AV receiver and surround speaker system"></div>
         </div></div>
         <div class="ht-toggle">+</div>
       </div>
@@ -2262,7 +2792,7 @@
           <div class="ht-items">
             <span>Room Acoustics Analysis</span><span>Acoustic Panels & Bass Traps</span><span>Diffuser Placement</span><span>Soundproofing Consultation</span><span>Audessey / DIRAC Room Correction</span><span>Listening Position Optimisation</span>
           </div>
-          <div class="ht-row-media fit-left"><img src="https://images.unsplash.com/photo-1758336716950-370f54b7a43f?auto=format&fit=crop&w=900&h=520&q=72" alt="Modern room with acoustic wall treatment and mixing console"></div>
+          <div class="ht-row-media fit-left"><img src="https://images.pexels.com/photos/6152261/pexels-photo-6152261.jpeg?auto=compress&cs=tinysrgb&w=900&h=520&fit=crop" alt="Studio acoustic treatment with soundproof wall panels"></div>
         </div></div>
         <div class="ht-toggle">+</div>
       </div>
@@ -2280,7 +2810,7 @@
           <div class="ht-items">
             <span>In-Wall Cable Routing</span><span>HDMI / Optical / Coaxial Wiring</span><span>Clean Equipment Racking</span><span>Conduit & Cable Management</span><span>Power Conditioning</span><span>Surge Protection</span>
           </div>
-          <div class="ht-row-media fit-left"><img src="https://images.pexels.com/photos/11529530/pexels-photo-11529530.jpeg?auto=compress&cs=tinysrgb&w=900&h=520&fit=crop" alt="Professional audio rack with meters, cables, and control gear"></div>
+          <div class="ht-row-media fit-left"><img src="https://images.pexels.com/photos/34068714/pexels-photo-34068714.jpeg?auto=compress&cs=tinysrgb&w=900&h=520&fit=crop" alt="Professional enterprise audio rack with mixer and equalizer"></div>
         </div></div>
         <div class="ht-toggle">+</div>
       </div>
@@ -2298,7 +2828,7 @@
           <div class="ht-items">
             <span>Universal Remote Setup</span><span>Smart Home Integration</span><span>App-based Control</span><span>Automated Lighting Scenes</span><span>Voice Control (Alexa / Google)</span><span>Motorised Curtain Integration</span>
           </div>
-          <div class="ht-row-media fit-35"><img src="https://images.pexels.com/photos/987586/pexels-photo-987586.jpeg?auto=compress&cs=tinysrgb&w=900&h=520&fit=crop" alt="Hand holding a remote control in front of a home entertainment screen"></div>
+          <div class="ht-row-media fit-35"><img src="https://images.pexels.com/photos/16423103/pexels-photo-16423103.jpeg?auto=compress&cs=tinysrgb&w=900&h=520&fit=crop" alt="Smart home audio control panel on a tablet"></div>
         </div></div>
         <div class="ht-toggle">+</div>
       </div>
@@ -2311,28 +2841,28 @@
     <h2 class="section-heading">Our <em>Installation Process</em></h2>
     <div class="process-steps">
       <div class="process-step">
-        <div class="process-step-img"><img src="https://images.unsplash.com/photo-1600607687644-c7171b42498b?w=900&q=72" alt="Modern room measured for home theater planning"></div>
+        <div class="process-step-img"><img src="https://images.pexels.com/photos/13378812/pexels-photo-13378812.jpeg?auto=compress&cs=tinysrgb&w=900&h=560&fit=crop" alt="AV receiver and speaker system for site assessment"></div>
         <div class="process-step-num">01</div>
         <div class="process-step-title">Site Visit & Consultation</div>
         <p class="process-step-desc">Our engineers visit your space, assess acoustics, dimensions, and lighting to recommend the ideal setup.</p>
         <div class="process-step-arrow">→</div>
       </div>
       <div class="process-step">
-        <div class="process-step-img"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=900&q=72" alt="Design planning desk for custom quote"></div>
+        <div class="process-step-img"><img src="https://images.pexels.com/photos/10833562/pexels-photo-10833562.jpeg?auto=compress&cs=tinysrgb&w=900&h=560&fit=crop" alt="AV receiver front panel for equipment planning"></div>
         <div class="process-step-num">02</div>
         <div class="process-step-title">Custom Design & Quote</div>
         <p class="process-step-desc">We create a detailed layout plan and equipment list tailored to your room and budget, with a transparent quotation.</p>
         <div class="process-step-arrow">→</div>
       </div>
       <div class="process-step">
-        <div class="process-step-img"><img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=900&q=72" alt="Installation team preparing equipment"></div>
+        <div class="process-step-img"><img src="https://images.pexels.com/photos/34068714/pexels-photo-34068714.jpeg?auto=compress&cs=tinysrgb&w=900&h=560&fit=crop" alt="Enterprise audio rack equipment ready for installation"></div>
         <div class="process-step-num">03</div>
         <div class="process-step-title">Supply & Installation</div>
         <p class="process-step-desc">Equipment sourced from authorised dealers, installed cleanly and professionally with zero visible clutter.</p>
         <div class="process-step-arrow">→</div>
       </div>
       <div class="process-step">
-        <div class="process-step-img"><img src="https://images.unsplash.com/photo-1487215078519-e21cc028cb29?w=900&q=72" alt="Audio calibration and final sound check"></div>
+        <div class="process-step-img"><img src="https://images.pexels.com/photos/11568006/pexels-photo-11568006.jpeg?auto=compress&cs=tinysrgb&w=900&h=560&fit=crop" alt="Professional audio amplifier and laptop for system calibration"></div>
         <div class="process-step-num">04</div>
         <div class="process-step-title">Calibration & Handover</div>
         <p class="process-step-desc">Full system calibration, acoustic tuning, demo session, and walkthrough so you get the most out of your setup.</p>
@@ -2399,15 +2929,20 @@
       <a onclick="showPage('home')">Home</a>
       <a onclick="showPage('theater')">Theater</a>
       <a onclick="showPage('rental')">Rental</a>
+      <a onclick="showPage('legal')">Legal</a>
     </div>
-    <div class="footer-copy">© 2025 Digital Audio, Coimbatore</div>
+    <div class="footer-copy">
+      © 2025 Digital Audio, Coimbatore &nbsp;·&nbsp;
+      <a onclick="showPage('legal'); switchLegalTab('privacy')" style="color:inherit;text-decoration:none;cursor:pointer;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Privacy</a>
+      &nbsp;·&nbsp;
+      <a onclick="showPage('legal'); switchLegalTab('terms')" style="color:inherit;text-decoration:none;cursor:pointer;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Terms</a>
+      &nbsp;·&nbsp;
+      <a onclick="showPage('legal'); switchLegalTab('cancel')" style="color:inherit;text-decoration:none;cursor:pointer;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Cancellation</a>
+    </div>
   </footer>
 
 </div>
 
-<!-- ===========================
-     PAGE 3 — AUDIO RENTAL
-=========================== -->
 <div class="page" id="page-rental">
 
   <section class="page-hero">
@@ -2739,6 +3274,10 @@
           <textarea placeholder="Tell us anything specific — equipment needed, stage size, duration, special requests..."></textarea>
         </div>
         <button class="form-submit" type="button" onclick="openWhatsApp('rental')">Send Enquiry via WhatsApp →</button>
+        <div class="form-consent">
+          <input type="checkbox" id="rentalConsent" checked>
+          <label for="rentalConsent">I consent to Digital Audio collecting and using my contact details to respond to this enquiry, in accordance with the <a onclick="showPage('legal'); switchLegalTab('privacy')">Privacy Policy</a> and <a onclick="showPage('legal'); switchLegalTab('terms')">Terms of Service</a>.</label>
+        </div>
       </div>
     </div>
   </section>
@@ -2749,18 +3288,406 @@
       <a onclick="showPage('home')">Home</a>
       <a onclick="showPage('theater')">Theater</a>
       <a onclick="showPage('rental')">Rental</a>
+      <a onclick="showPage('legal')">Legal</a>
     </div>
-    <div class="footer-copy">© 2025 Digital Audio, Coimbatore</div>
+    <div class="footer-copy">
+      © 2025 Digital Audio, Coimbatore &nbsp;·&nbsp;
+      <a onclick="showPage('legal'); switchLegalTab('privacy')" style="color:inherit;text-decoration:none;cursor:pointer;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Privacy</a>
+      &nbsp;·&nbsp;
+      <a onclick="showPage('legal'); switchLegalTab('terms')" style="color:inherit;text-decoration:none;cursor:pointer;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Terms</a>
+      &nbsp;·&nbsp;
+      <a onclick="showPage('legal'); switchLegalTab('cancel')" style="color:inherit;text-decoration:none;cursor:pointer;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Cancellation</a>
+    </div>
   </footer>
 
 </div>
 
-<a class="floating-whatsapp" href="#" onclick="openWhatsApp('general'); return false;" aria-label="Chat with Digital Audio on WhatsApp">
+<div class="page" id="page-legal">
+
+  <section class="legal-hero">
+    <div class="legal-hero-content">
+      <div class="section-label">Legal & Compliance</div>
+      <h1>Policies &amp; <em>Disclosures</em></h1>
+      <p>Digital Audio is committed to transparency in how we operate, handle data, and serve our customers across Coimbatore and Tamil Nadu.</p>
+      <div class="legal-updated"><span>Last Revised</span> 1 January 2025</div>
+    </div>
+  </section>
+
+  <div class="legal-tabs" id="legalTabs">
+    <button class="legal-tab active" onclick="switchLegalTab('privacy')">Privacy Policy</button>
+    <button class="legal-tab" onclick="switchLegalTab('terms')">Terms &amp; Conditions</button>
+    <button class="legal-tab" onclick="switchLegalTab('disclaimer')">Disclaimer</button>
+    <button class="legal-tab" onclick="switchLegalTab('cancel')">Cancellation &amp; Refund</button>
+  </div>
+
+  <div class="legal-content">
+
+    <div class="legal-panel active" id="legal-privacy">
+
+      <div class="legal-section">
+        <span class="legal-section-num">01 — Overview</span>
+        <h2>Your Privacy <em>Matters to Us</em></h2>
+        <p>Digital Audio ("we", "our", "us") respects your right to privacy. This Privacy Policy explains what personal information we collect, why we collect it, how we use it, and the choices you have. It applies to this website and all communications initiated through it.</p>
+        <p>This policy is published in compliance with the <strong>Information Technology Act, 2000</strong>, the <strong>Information Technology (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules, 2011</strong>, and applicable provisions of the <strong>Consumer Protection Act, 2019</strong> of India.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <span class="legal-section-num">02 — What We Collect</span>
+        <h2>Data We <em>Collect</em></h2>
+        <h3>Information You Provide</h3>
+        <ul>
+          <li><strong>Name</strong> — so we can address you personally in follow-ups</li>
+          <li><strong>Phone number</strong> — our primary channel for quotes and scheduling</li>
+          <li><strong>Email address</strong> — for sending detailed proposals or documentation</li>
+          <li><strong>Event details</strong> — type, date, venue, audience size, and requirements you enter in our enquiry form</li>
+          <li><strong>Messages sent via WhatsApp</strong> — when you initiate contact through the links on this site</li>
+        </ul>
+        <h3>Automatically Collected Data</h3>
+        <ul>
+          <li><strong>Browser and device type</strong> — for website compatibility purposes</li>
+          <li><strong>Pages visited and time spent</strong> — to understand which content is useful</li>
+          <li><strong>Approximate location</strong> (city/state level) — derived from IP address, not stored individually</li>
+        </ul>
+        <p>We do <strong>not</strong> collect payment card details, Aadhaar numbers, or any government-issued identification through this website.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <span class="legal-section-num">03 — How We Use It</span>
+        <h2>Purpose of <em>Processing</em></h2>
+        <table class="legal-table">
+          <tr><th>Data</th><th>Purpose</th></tr>
+          <tr><td>Name, phone, email</td><td>Respond to your enquiry, send quotes, schedule site visits</td></tr>
+          <tr><td>Event details</td><td>Prepare accurate equipment and service proposals</td></tr>
+          <tr><td>WhatsApp messages</td><td>Real-time coordination for bookings and on-site support</td></tr>
+          <tr><td>Usage analytics</td><td>Improve website content and usability</td></tr>
+        </table>
+        <p>We will <strong>never sell, rent, or trade</strong> your personal information to any third party for marketing purposes.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <span class="legal-section-num">04 — WhatsApp Communication</span>
+        <h2>Communication Via <em>WhatsApp</em></h2>
+        <p>When you click any "Send Enquiry via WhatsApp" or "Get Quote" button on this site, your device opens WhatsApp with a pre-filled message that includes your enquiry details. By sending that message you consent to Digital Audio communicating with you on WhatsApp to discuss your requirements, share quotes, and coordinate your booking.</p>
+        <p>WhatsApp messages are processed by WhatsApp LLC under their own privacy policy. We recommend reviewing <strong>WhatsApp's Privacy Policy</strong> at whatsapp.com/legal for details of how they handle message data.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <span class="legal-section-num">05 — Data Retention &amp; Security</span>
+        <h2>How We <em>Protect Your Data</em></h2>
+        <p>We retain your contact and enquiry information for as long as required to fulfil your service request and for up to <strong>3 years</strong> thereafter for warranty, service, and legal purposes. Analytics data is retained in aggregated, anonymised form.</p>
+        <p>We implement reasonable technical and organisational measures — including access controls and secure communication channels — to protect your information from unauthorised access, alteration, or disclosure, in accordance with the IT Rules 2011.</p>
+        <div class="legal-highlight">
+          <p>Despite reasonable precautions, no internet transmission is completely secure. If you believe your data has been compromised, please contact us immediately at <strong>info@digitalaudiocbe.com</strong>.</p>
+        </div>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <span class="legal-section-num">06 — Your Rights</span>
+        <h2>Your <em>Rights</em></h2>
+        <ul>
+          <li><strong>Access</strong> — request a copy of the personal data we hold about you</li>
+          <li><strong>Correction</strong> — ask us to correct inaccurate or incomplete data</li>
+          <li><strong>Deletion</strong> — request erasure of your data (subject to legal retention obligations)</li>
+          <li><strong>Withdrawal of consent</strong> — opt out of marketing communications at any time by contacting us</li>
+        </ul>
+        <p>To exercise any of these rights, email us at <strong>info@digitalaudiocbe.com</strong> with the subject "Data Request". We will respond within 30 days.</p>
+        <div class="legal-contact-box">
+          <div class="legal-contact-item"><span>Data Controller</span><span>Digital Audio, Coimbatore</span></div>
+          <div class="legal-contact-item"><span>Email</span><span>info@digitalaudiocbe.com</span></div>
+          <div class="legal-contact-item"><span>Phone</span><span>+91 9442538840</span></div>
+          <div class="legal-contact-item"><span>Jurisdiction</span><span>Coimbatore, Tamil Nadu, India</span></div>
+        </div>
+      </div>
+
+    </div><div class="legal-panel" id="legal-terms">
+
+      <div class="legal-section">
+        <span class="legal-section-num">01 — Agreement</span>
+        <h2>Terms of <em>Service</em></h2>
+        <p>By accessing this website or engaging Digital Audio for services, you agree to be bound by these Terms and Conditions. If you do not agree, please do not use this website or engage our services.</p>
+        <p>These terms are governed by the laws of India and the courts of <strong>Coimbatore, Tamil Nadu</strong> shall have exclusive jurisdiction over any dispute arising out of these terms.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <span class="legal-section-num">02 — Services</span>
+        <h2>Scope of <em>Services</em></h2>
+        <p>Digital Audio provides the following services in and around Coimbatore, Tamil Nadu:</p>
+        <ul>
+          <li>Custom home theater design, supply, and installation</li>
+          <li>Professional audio equipment rental for events, weddings, concerts, and corporate functions</li>
+          <li>Acoustic consultation, treatment, and room calibration</li>
+          <li>Annual Maintenance Contracts (AMC) for installed systems</li>
+        </ul>
+        <p>All services are subject to availability and confirmation. An enquiry submitted through this website does not constitute a booking or service agreement until formally confirmed in writing by Digital Audio.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <span class="legal-section-num">03 — Quotations</span>
+        <h2>Quotes &amp; <em>Pricing</em></h2>
+        <p>All quotations provided by Digital Audio are:</p>
+        <ul>
+          <li>Valid for <strong>7 days</strong> from the date of issue unless otherwise stated</li>
+          <li>Subject to change based on availability of equipment and materials at the time of booking confirmation</li>
+          <li>Exclusive of GST unless explicitly stated otherwise</li>
+          <li>Based on the details provided by the customer — inaccurate or incomplete details may result in revised pricing</li>
+        </ul>
+        <div class="legal-highlight">
+          <p>Prices shown or discussed are estimates only. Final pricing is confirmed in the written quotation issued after the site visit or detailed requirement assessment.</p>
+        </div>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <span class="legal-section-num">04 — Bookings &amp; Payment</span>
+        <h2>Booking <em>Confirmation</em></h2>
+        <p>A booking is confirmed only upon receipt of an agreed advance payment as specified in the quotation. Advance payment amounts vary by service:</p>
+        <table class="legal-table">
+          <tr><th>Service</th><th>Advance Required</th></tr>
+          <tr><td>Home Theater Installation</td><td>50% of total project value</td></tr>
+          <tr><td>Audio Rental (Events)</td><td>30% of rental value or ₹5,000 minimum</td></tr>
+          <tr><td>AMC / Service Contracts</td><td>100% of contract value upfront</td></tr>
+        </table>
+        <p>Balance payment is due on the date of delivery, installation, or event commencement unless otherwise agreed in writing. We reserve the right to withhold equipment or services if payment is not received as agreed.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <span class="legal-section-num">05 — Customer Responsibilities</span>
+        <h2>Your <em>Obligations</em></h2>
+        <ul>
+          <li>Provide accurate and complete information about your event or installation space</li>
+          <li>Ensure access to the venue or premises at the agreed time</li>
+          <li>Ensure safe working conditions for our installation or event crew</li>
+          <li>For audio rental: ensure the equipment is used only for the stated purpose and returned in the condition it was delivered</li>
+          <li>Report any equipment damage or malfunction immediately</li>
+          <li>Obtain all necessary permissions and licenses for your event (music licenses, venue permissions, etc.)</li>
+        </ul>
+        <p>Digital Audio shall not be liable for any damages, penalties, or losses arising from the customer's failure to fulfil these obligations.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <span class="legal-section-num">06 — Equipment Damage</span>
+        <h2>Damage &amp; <em>Loss Liability</em></h2>
+        <p>For audio rental bookings, the customer accepts full responsibility for any damage to, or loss of, rented equipment from the time of delivery until return. Damage includes but is not limited to: physical damage, water damage, electrical damage, and theft.</p>
+        <p>The cost of repair or replacement of damaged equipment will be charged at prevailing market rates plus handling. Digital Audio reserves the right to withhold the advance payment as partial or full compensation for damages.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <span class="legal-section-num">07 — Limitation of Liability</span>
+        <h2>Limitation of <em>Liability</em></h2>
+        <p>To the fullest extent permitted by applicable law, Digital Audio shall not be liable for:</p>
+        <ul>
+          <li>Indirect, incidental, or consequential losses including loss of profit or revenue</li>
+          <li>Equipment failure caused by improper use, power surges, or acts of God</li>
+          <li>Delays caused by circumstances beyond our reasonable control (see Force Majeure below)</li>
+          <li>Losses arising from third-party products or services recommended by us</li>
+        </ul>
+        <p>Our total aggregate liability to you shall not exceed the amount actually paid by you for the specific service giving rise to the claim.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <span class="legal-section-num">08 — Force Majeure</span>
+        <h2>Force <em>Majeure</em></h2>
+        <p>Digital Audio shall not be in breach of any agreement, nor liable for any delay or failure to perform, where such failure arises from events beyond our reasonable control, including but not limited to: natural disasters, floods, fire, government orders, pandemic-related restrictions, strikes, or transportation disruptions.</p>
+        <p>In such cases, we will endeavour to reschedule or refund as appropriate.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <span class="legal-section-num">09 — Intellectual Property</span>
+        <h2>Intellectual <em>Property</em></h2>
+        <p>All content on this website — including text, design, layout, graphics, and branding — is the property of Digital Audio or its licensors and is protected under applicable Indian intellectual property laws. You may not reproduce, redistribute, or commercially exploit any content from this site without prior written permission.</p>
+        <p>Product names and brand logos referenced on this site (e.g., JBL, Bose, Sony, Yamaha) are trademarks of their respective owners. Their mention is for informational purposes only and does not imply any affiliation or endorsement.</p>
+      </div>
+
+    </div><div class="legal-panel" id="legal-disclaimer">
+
+      <div class="legal-section">
+        <span class="legal-section-num">01 — Website Accuracy</span>
+        <h2>Information <em>Accuracy</em></h2>
+        <p>The information on this website is provided for general informational purposes only. While we make every effort to keep content accurate and current, Digital Audio makes no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, or suitability of the information contained herein.</p>
+        <p>Specifications, features, and capabilities of equipment described on this site are indicative and subject to manufacturer changes without notice. Always request a current specification sheet at the time of enquiry.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <span class="legal-section-num">02 — Images &amp; Media</span>
+        <h2>Images Are <em>Illustrative</em></h2>
+        <p>Photographs and images used on this website are for illustrative purposes only. They represent the style, quality, and type of work we do or equipment we supply, but may not depict actual Digital Audio installations or owned inventory unless specifically captioned as such.</p>
+        <p>Some images are sourced from licensed stock photography providers (Unsplash, Pexels) under their respective open licences.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <span class="legal-section-num">03 — Pricing Disclaimer</span>
+        <h2>Pricing <em>Disclaimer</em></h2>
+        <div class="legal-highlight">
+          <p>No prices displayed or discussed on this website constitute a formal offer or binding quote. All pricing is subject to change based on current market rates, availability, GST revisions, and project-specific requirements. A formal written quotation must be obtained before any purchase or booking decision.</p>
+        </div>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <span class="legal-section-num">04 — Third-Party Links</span>
+        <h2>Third-Party <em>Services</em></h2>
+        <p>This website contains links to WhatsApp and other third-party services. Digital Audio has no control over the content, privacy practices, or terms of those services and accepts no responsibility or liability for them. Use of third-party services is at your own risk and subject to their respective terms and policies.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <span class="legal-section-num">05 — No Professional Advice</span>
+        <h2>No Professional <em>Advisory</em></h2>
+        <p>Content on this website does not constitute professional acoustic, electrical, or structural advice. Before undertaking any installation work, ensure compliance with local building regulations and consult a qualified professional where required.</p>
+        <p>Digital Audio's installation teams operate within standard industry practices and all work is done by trained personnel. However, the suitability of any installation for a specific purpose is ultimately the responsibility of the property owner.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <span class="legal-section-num">06 — GST &amp; Taxes</span>
+        <h2>Tax <em>Disclosure</em></h2>
+        <p>Digital Audio is registered under the Goods and Services Tax (GST) regime of India. GST will be charged at applicable rates on all taxable supplies of goods and services. Quoted prices may be exclusive of GST unless explicitly stated. A proper GST invoice will be issued for all confirmed transactions upon request.</p>
+      </div>
+
+    </div><div class="legal-panel" id="legal-cancel">
+
+      <div class="legal-section">
+        <span class="legal-section-num">01 — Our Commitment</span>
+        <h2>Fair <em>Cancellation Policy</em></h2>
+        <p>We understand that plans change. Our cancellation and refund policy is designed to be fair to both customers and our team, who begin preparation work immediately upon booking confirmation.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <span class="legal-section-num">02 — Home Theater Installations</span>
+        <h2>Installation <em>Cancellations</em></h2>
+        <table class="legal-table">
+          <tr><th>Cancellation Timing</th><th>Refund on Advance Paid</th></tr>
+          <tr><td>More than 14 days before scheduled installation</td><td>90% refund (10% admin fee retained)</td></tr>
+          <tr><td>7 – 14 days before scheduled installation</td><td>50% refund</td></tr>
+          <tr><td>Less than 7 days before scheduled installation</td><td>No refund (materials may have been ordered)</td></tr>
+          <tr><td>After installation has commenced</td><td>No refund; charges apply for work completed</td></tr>
+        </table>
+        <p>If we cancel the installation due to circumstances on our end, a <strong>full refund</strong> of the advance will be issued within 7 business days.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <span class="legal-section-num">03 — Audio Rental (Events)</span>
+        <h2>Rental Event <em>Cancellations</em></h2>
+        <table class="legal-table">
+          <tr><th>Cancellation Timing</th><th>Refund on Advance Paid</th></tr>
+          <tr><td>More than 10 days before the event date</td><td>Full refund</td></tr>
+          <tr><td>5 – 10 days before the event date</td><td>50% refund</td></tr>
+          <tr><td>2 – 4 days before the event date</td><td>25% refund</td></tr>
+          <tr><td>Less than 48 hours before the event</td><td>No refund</td></tr>
+        </table>
+        <p>If the event is rescheduled (not cancelled), we will try to accommodate the new date at no extra charge, subject to availability. A reschedule must be requested at least 5 days before the original event date.</p>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <span class="legal-section-num">04 — Refund Process</span>
+        <h2>How Refunds <em>Work</em></h2>
+        <p>All approved refunds will be processed within <strong>7–10 business days</strong> to the original payment method. Refunds in cash will be arranged for cash advance payments.</p>
+        <p>To initiate a cancellation or refund, contact us via:</p>
+        <ul>
+          <li>WhatsApp: +91 9442538840 (reference your booking date and name)</li>
+          <li>Email: info@digitalaudiocbe.com with subject "Cancellation Request"</li>
+        </ul>
+        <div class="legal-highlight">
+          <p>Cancellation requests must be made in writing (WhatsApp message or email) to be valid. Verbal cancellations will not be accepted.</p>
+        </div>
+      </div>
+
+      <div class="legal-divider"></div>
+
+      <div class="legal-section">
+        <span class="legal-section-num">05 — Service Complaints</span>
+        <h2>Grievance <em>Redressal</em></h2>
+        <p>If you are dissatisfied with any aspect of our service, please contact our Grievance Officer within <strong>30 days</strong> of the service date:</p>
+        <div class="legal-contact-box">
+          <div class="legal-contact-item"><span>Grievance Officer</span><span>Digital Audio — Management</span></div>
+          <div class="legal-contact-item"><span>Email</span><span>info@digitalaudiocbe.com</span></div>
+          <div class="legal-contact-item"><span>Phone</span><span>+91 9442538840</span></div>
+          <div class="legal-contact-item"><span>Response Time</span><span>Within 7 business days</span></div>
+        </div>
+        <p style="margin-top:20px;">We are committed to resolving all genuine complaints fairly and promptly. Where a dispute cannot be resolved amicably, it shall be subject to the exclusive jurisdiction of courts in <strong>Coimbatore, Tamil Nadu, India</strong>.</p>
+      </div>
+
+    </div></div><footer>
+    <div class="footer-logo">DIGITAL <span>AUDIO</span> — CBE</div>
+    <div class="footer-links">
+      <a onclick="showPage('home')">Home</a>
+      <a onclick="showPage('theater')">Theater</a>
+      <a onclick="showPage('rental')">Rental</a>
+      <a onclick="showPage('legal')" class="active">Legal</a>
+    </div>
+    <div class="footer-copy">
+      © 2025 Digital Audio, Coimbatore &nbsp;·&nbsp;
+      <a onclick="showPage('legal'); switchLegalTab('privacy')" style="color:inherit;text-decoration:none;cursor:pointer;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Privacy</a>
+      &nbsp;·&nbsp;
+      <a onclick="showPage('legal'); switchLegalTab('terms')" style="color:inherit;text-decoration:none;cursor:pointer;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Terms</a>
+      &nbsp;·&nbsp;
+      <a onclick="showPage('legal'); switchLegalTab('cancel')" style="color:inherit;text-decoration:none;cursor:pointer;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Cancellation</a>
+    </div>
+  </footer>
+
+</div><a class="floating-whatsapp" href="#" onclick="openWhatsApp('general'); return false;" aria-label="Chat with Digital Audio on WhatsApp">
   <svg viewBox="0 0 24 24"><path d="M20.5 11.9a8.5 8.5 0 0 1-12.6 7.4L3 20.6l1.3-4.8a8.5 8.5 0 1 1 16.2-3.9z"/><path d="M8.7 8.4c.2-.5.4-.5.7-.5h.5c.2 0 .4.1.5.4l.7 1.7c.1.3.1.5-.1.7l-.4.5c-.1.1-.2.3 0 .5.5.9 1.3 1.7 2.3 2.2.2.1.4.1.5-.1l.7-.8c.2-.2.4-.2.7-.1l1.7.8c.3.1.4.3.4.5 0 .5-.2 1.3-.6 1.6-.4.4-1.2.6-2.2.3-2.8-.8-5.1-3-6-5.8-.3-.9-.2-1.5 0-1.9z"/></svg>
   <span>WhatsApp</span>
 </a>
 
 <script>
+  // ── THEME TOGGLE ─────────────────────────────────────────
+  (function () {
+    const saved = localStorage.getItem('da-theme');
+    if (saved === 'day') document.documentElement.setAttribute('data-theme', 'day');
+  })();
+
+  function toggleTheme() {
+    const root = document.documentElement;
+    const isDay = root.getAttribute('data-theme') === 'day';
+    if (isDay) {
+      root.removeAttribute('data-theme');
+      localStorage.setItem('da-theme', 'night');
+    } else {
+      root.setAttribute('data-theme', 'day');
+      localStorage.setItem('da-theme', 'day');
+    }
+  }
+  // ─────────────────────────────────────────────────────────
+
   const whatsappNumber = '919442538840';
   const whatsappMessages = {
     general: 'Hi Digital Audio, I need a quote. Please contact me.',
@@ -2775,7 +3702,7 @@
     if (type === 'rental') {
       const form = document.querySelector('#page-rental .booking-form');
       if (form) {
-        const values = Array.from(form.querySelectorAll('input, select, textarea'))
+        const values = Array.from(form.querySelectorAll('input:not([type="checkbox"]), select, textarea'))
           .map(field => field.value && field.value.trim())
           .filter(Boolean);
         if (values.length) {
@@ -2793,9 +3720,12 @@
     if (!isOpen) row.classList.add('open');
   }
 
+  // ── PAGE NAVIGATION ──────────────────────────────────────
   function showPage(id, updateHash = true) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById('page-' + id).classList.add('active');
+    const target = document.getElementById('page-' + id);
+    if (!target) return;
+    target.classList.add('active');
     document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
     const navEl = document.getElementById('nav-' + id);
     if (navEl) navEl.classList.add('active');
@@ -2809,16 +3739,55 @@
     if (contact) contact.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
+  // ── LEGAL TAB SWITCHER ────────────────────────────────────
+  function switchLegalTab(id) {
+    // Panels
+    document.querySelectorAll('.legal-panel').forEach(p => p.classList.remove('active'));
+    const panel = document.getElementById('legal-' + id);
+    if (panel) panel.classList.add('active');
+    // Tabs — match by onclick attribute
+    document.querySelectorAll('.legal-tab').forEach(t => {
+      t.classList.toggle('active', t.getAttribute('onclick').includes("'" + id + "'"));
+    });
+    // Scroll tab into view on mobile
+    const activeTab = document.querySelector('.legal-tab.active');
+    if (activeTab) activeTab.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+  }
+
+  // ── COOKIE CONSENT ───────────────────────────────────────
+  function dismissCookie(accepted) {
+    localStorage.setItem('da-cookie', accepted ? 'accepted' : 'declined');
+    const banner = document.getElementById('cookieBanner');
+    if (banner) banner.classList.add('hidden');
+  }
+
+  function initCookieBanner() {
+    const status = localStorage.getItem('da-cookie');
+    const banner = document.getElementById('cookieBanner');
+    if (!banner) return;
+    if (status === 'accepted' || status === 'declined') {
+      banner.classList.add('hidden');
+    } else {
+      // Small delay so it doesn't flash before page paints
+      setTimeout(() => banner.classList.remove('hidden'), 1200);
+    }
+  }
+  // Hide by default until initCookieBanner runs
+  document.getElementById('cookieBanner') && document.getElementById('cookieBanner').classList.add('hidden');
+
+  // ── NAV SCROLL ───────────────────────────────────────────
   window.addEventListener('scroll', () => {
     const nav = document.getElementById('mainNav');
     nav.classList.toggle('scrolled', window.scrollY > 40);
   });
 
+  // ── INIT ─────────────────────────────────────────────────
   window.addEventListener('DOMContentLoaded', () => {
     const initialPage = window.location.hash.replace('#', '');
-    if (['home', 'theater', 'rental'].includes(initialPage)) {
+    if (['home', 'theater', 'rental', 'legal'].includes(initialPage)) {
       showPage(initialPage, false);
     }
+    initCookieBanner();
   });
 </script>
 </body>
