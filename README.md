@@ -29,10 +29,10 @@
 
 <div align="center">
 
-| 1️⃣ High-Fidelity AV Receiver & Speaker Setup | 2️⃣ Studio-Grade Speaker Driver Detail |
+| 💻 1️⃣ Live Desktop Interface | 📱 2️⃣ Live Mobile Responsive View |
 | :---: | :---: |
-| <img src="./receiver_main.png" width="440" alt="AV Receiver and Speaker Setup" style="border: 1px solid #C9973A; border-radius: 6px;"> | <img src="./speaker_inset.png" width="440" alt="Speaker Driver Detail" style="border: 1px solid #C9973A; border-radius: 6px;"> |
-| *Modern AV Receiver & Home Theater Speaker System* | *Gold-Accented Precision Audio Driver Engineering* |
+| <img src="./assets/screenshot-desktop.png" width="540" alt="Live Desktop View of Digital Audio Website" style="border: 1px solid #C9973A; border-radius: 6px;"> | <img src="./assets/screenshot-mobile.png" width="260" alt="Live Mobile View of Digital Audio Website" style="border: 1px solid #C9973A; border-radius: 6px;"> |
+| *Digital Audio Widescreen Desktop Landing & Navigation* | *Responsive Mobile Touch UI & Layout* |
 
 </div>
 
